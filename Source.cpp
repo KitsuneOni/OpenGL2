@@ -25,6 +25,11 @@ GLuint EBO_Hex;
 GLuint Elige;
 GLuint Mood;
 
+GLuint VBO_Quad;
+GLuint VAO_Quad;
+GLuint EBO_Quad;
+
+
 GLFWwindow* window = nullptr;
 
 int magic = 800;
@@ -32,25 +37,33 @@ int Program_PositionOnly;
 
 float CurrentTime = 0.0f;
 float PreviousTimeStep;
+float ObjRotationAngle = 0.0f;
+
 
 glm::vec3 ObjPosition = glm::vec3(0.5f, 0.5f, 0.0f);
-glm::mat4 TranslationMat;
 
-float ObjRotationAngle = 0.0f;
-glm::mat4 RotationMat;
+glm::vec3 ObjPosition2 = glm::vec3(-0.5f, 0.5f, 0.0f);
+
+glm::vec3 ObjPosition3 = glm::vec3(0.0f, -0.5f, 0.0f);
 
 glm::vec3 ObjScale = glm::vec3(1.0f, 1.0f, 1.0f);
-glm::mat4 ScaleMat;
 
-glm::mat4 ObjModelMat;
-glm::mat4 PVMMat;
 //camera Stuff
 glm::vec3 CameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 CameraLookDir = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 CameraTargetPos = glm::vec3(0.0f, 0.0f, 0.0f);
 glm::vec3 CameraUpDir = glm::vec3(0.0f, 1.0f, 0.0f);
+
+//Setting up Matrixes
 glm::mat4 ViewMat;
 glm::mat4 ProjectionMat;
+glm::mat4 ObjModelMat;
+glm::mat4 ScaleMat;
+glm::mat4 RotationMat;
+glm::mat4 TranslationMat;
+glm::mat4 PVMMat;
+glm::mat4 PVMMat2;
+glm::mat4 PVMMat3;
 
 GLfloat Vertices_Hex[] =
 {
@@ -61,7 +74,6 @@ GLfloat Vertices_Hex[] =
 	 0.25f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.75f, 0.0f,	//Bottom Right
 	-0.25f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		0.25f, 0.0f,	//Bottom Left
 	-0.5f,   0.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.5f,		//Middle Left
-
 };
 
 GLuint Indices_Hex[] =
@@ -72,6 +84,20 @@ GLuint Indices_Hex[] =
 	0, 4, 5,
 	0, 5, 6,
 	0, 6, 1,
+};
+
+GLuint Vertices_Quad[] =
+{
+		-0.5f,  -0.5f, 0.0f,		1.0f, 0.0f, 1.0f,		0.0f, 0.0f,		//Bottom Left
+		 0.5f,  -0.5f, 0.0f,		0.0f, 1.0f, 1.0f,		1.0f, 0.0f,		//Bottom Right
+		 0.5f,	 0.5f, 0.0f,		0.0f, 1.0f, 1.0f,		1.0f, 1.0f,		//Top Right
+		-0.5f,   0.5f, 0.0f,		0.0f, 1.0f, 1.0f,		0.0f, 1.0f,		//Top Left
+};
+
+GLuint Indices_Quad[] =
+{
+		0, 1, 2,
+		0, 2, 3,
 };
 
 int main()
@@ -116,7 +142,7 @@ int main()
 }
 void InitialSetup()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 	glViewport(0, 0, magic, magic);
 
@@ -151,10 +177,10 @@ void InitialSetup()
 		&ImageWidth, &ImageHeight, &ImageComponents, 0);
 	ImageGen(Mood);
 	
-	GLint LoadedComponents1 = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
+	LoadedComponents = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents1, ImageWidth, ImageHeight, 0,
-		LoadedComponents1, GL_UNSIGNED_BYTE, ImageData1);
+	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents, ImageWidth, ImageHeight, 0,
+		LoadedComponents, GL_UNSIGNED_BYTE, ImageData1);
 	
 	glGenerateMipmap(GL_TEXTURE_2D);
 	
@@ -171,8 +197,6 @@ void InitialSetup()
 	vboGenerate(VBO_Hex);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_Hex), Vertices_Hex, GL_STATIC_DRAW);
 	
-
-
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GLfloat)));
@@ -181,6 +205,23 @@ void InitialSetup()
 	glEnableVertexAttribArray(2);
 
 
+
+
+
+	vaoGenerate(VAO_Quad);
+	eboGenerate(EBO_Quad);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices_Quad), Indices_Quad, GL_STATIC_DRAW);
+	vboGenerate(VBO_Quad);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_Quad), Vertices_Quad, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+
+	//glBindVertexArray(0);
 
 	PreviousTimeStep = (float)glfwGetTime();
 }
@@ -223,6 +264,20 @@ void Update()
 
 
 	PVMMat = ProjectionMat * ViewMat * ObjModelMat;
+
+
+	TranslationMat = glm::translate(glm::mat4(), ObjPosition2);
+	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
+
+	PVMMat2 = ProjectionMat * ViewMat * ObjModelMat;
+
+
+
+
+	TranslationMat = glm::translate(glm::mat4(), ObjPosition3);
+	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
+
+	PVMMat3 = ProjectionMat * ViewMat * ObjModelMat;
 }
 void Render()
 {
@@ -247,9 +302,23 @@ void Render()
 	GLint PVMMatLoc = glGetUniformLocation(Program_PositionOnly, "PVMMat");
 	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMat));
 
-
-
 	glDrawElements(GL_TRIANGLES, sizeof(Indices_Hex), GL_UNSIGNED_INT, 0);
+
+
+
+	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMat2));
+	
+	glDrawElements(GL_TRIANGLES, sizeof(Indices_Hex), GL_UNSIGNED_INT, 0);
+
+
+
+	glBindVertexArray(VAO_Quad);
+
+	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMat3));
+
+	glDrawElements(GL_TRIANGLES, 8, GL_UNSIGNED_INT, 0);
+
+
 
 	glBindVertexArray(0);
 	glUseProgram(0);
