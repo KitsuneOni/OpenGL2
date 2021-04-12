@@ -26,13 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\FixedTriangle.vs">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
     <None Include="Resources\Shaders\FixedColor.fs">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\PositionOnly.vs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\ClipSpace.vs">
