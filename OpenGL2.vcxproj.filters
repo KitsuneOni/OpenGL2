@@ -26,10 +26,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\FixedColor.fs">
+    <None Include="Resources\Shaders\Hexagon.fs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\ClipSpace.vs">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Quad.fs">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
