@@ -261,26 +261,19 @@ void Update()
 	float DeltaTime = CurrentTimeStep - PreviousTimeStep;
 	PreviousTimeStep = CurrentTimeStep;
 
-	std::cout << DeltaTime << std::endl;
+	std::cout << CurrentTime << std::endl;
 
 	TranslationMat = glm::translate(glm::mat4(), ObjPosition);
 	RotationMat = glm::rotate(glm::mat4(), glm::radians(ObjRotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
 	ScaleMat = glm::scale(glm::mat4(), ObjScale);
 	
-
-
-	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
-	
-
-
 	float halfWindowWidth = float(magic) * 0.5f;
 	float halfWindowHeight = float(magic) * 0.5f;
 	ProjectionMat = glm::ortho(-halfWindowWidth, halfWindowWidth, -halfWindowHeight, halfWindowHeight, 0.1f, 100.0f);
 
-
+	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
+	
 	ViewMat = glm::lookAt(CameraPos, CameraPos + CameraLookDir, CameraUpDir);
-
-
 
 	PVMMatHexRight = ProjectionMat * ViewMat * ObjModelMat;
 
@@ -337,8 +330,6 @@ void Render()
 	glUseProgram(Program_Quad);
 	glBindVertexArray(VAO_Quad);
 	
-	glUniform1f(CurrentTimeLoc, CurrentTime);
-
 	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), TimeChange, 0);
 
 	glActiveTexture(GL_TEXTURE0);
