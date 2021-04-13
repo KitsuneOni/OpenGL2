@@ -2,6 +2,7 @@
 
 in vec3 FragColor;
 in vec2 FragTexCoords;
+in vec2 TexPosition;
 
 uniform float CurrentTime;
 uniform sampler2D ImageTexture;
@@ -11,6 +12,6 @@ out vec4 FinalColor;
 
 void main()
 {
-    FinalColor = mix(texture(ImageTexture, FragTexCoords) , texture(ImageTexture1, FragTexCoords), (sin(CurrentTime)+ 1)/2);
+    FinalColor = texture(ImageTexture, FragTexCoords);
 
 }

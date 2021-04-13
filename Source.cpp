@@ -22,12 +22,14 @@ void ImageClear(unsigned char* image);
 GLuint VBO_Hex;
 GLuint VAO_Hex;
 GLuint EBO_Hex;
+
 GLuint VAO_Quad;
 GLuint VBO_Quad;
 GLuint EBO_Quad;
+
 GLuint Elige;
 GLuint Mood;
-GLuint Mood2;
+GLuint AnimationSprite;
 
 GLFWwindow* window = nullptr;
 
@@ -37,6 +39,8 @@ int Program_Quad;
 
 float CurrentTime = 0.0f;
 float PreviousTimeStep;
+
+float TimeChange = 0.0f;
 
 glm::vec3 ObjPosition = glm::vec3(200.0f, 200.0f, 0.0f);
 glm::vec3 ObjPosition2 = glm::vec3(-200.0f, 200.0f, 0.0f);
@@ -87,10 +91,10 @@ GLuint Indices_Hex[] =
 
 GLfloat Vertices_Quad[] =
 {
-	-1.0f, -1.0f, 0.0f,    		 1.0f, 0.0f, 1.0f,		0.0f, 0.0f,		//bottom left
-	 1.0f, -1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		1.0f, 0.0f,		//bottom right
-     1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		1.0f, 1.0f,		//top right
-	-1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.0f, 1.0f,		//top left
+	-1.0f, -1.0f, 0.0f,    		 1.0f, 0.0f, 1.0f,		0.0f,  0.0f,		//bottom left
+	 1.0f, -1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.125f, 0.0f,		//bottom right
+     1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.125f,  1.0f,		//top right
+	-1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.0f,  1.0f,		//top left
 };
 
 
@@ -149,7 +153,7 @@ void InitialSetup()
 	Program_Hex = ShaderLoader::CreateProgram("Resources/Shaders/ClipSpace.vs",
 		"Resources/Shaders/Hexagon.fs");
 
-	Program_Quad = ShaderLoader::CreateProgram("Resources/Shaders/ClipSpace.vs",
+	Program_Quad = ShaderLoader::CreateProgram("Resources/Shaders/ClipSpaceQuad.vs",
 		"Resources/Shaders/Quad.fs");
 
 	int ImageWidth;
@@ -181,10 +185,10 @@ void InitialSetup()
 		&ImageWidth, &ImageHeight, &ImageComponents, 0);
 	ImageGen(Mood);
 	
-	GLint LoadedComponents1 = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
+	LoadedComponents = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents1, ImageWidth, ImageHeight, 0,
-		LoadedComponents1, GL_UNSIGNED_BYTE, ImageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents, ImageWidth, ImageHeight, 0,
+		LoadedComponents, GL_UNSIGNED_BYTE, ImageData);
 	
 	glGenerateMipmap(GL_TEXTURE_2D);
 	
@@ -195,14 +199,14 @@ void InitialSetup()
 
 
 	stbi_set_flip_vertically_on_load(true);
-	ImageData = stbi_load("Resources/Textures/Mood2.png",
+	ImageData = stbi_load("Resources/Textures/Capguy_Walk.png",
 		&ImageWidth, &ImageHeight, &ImageComponents, 0);
-	ImageGen(Mood2);
+	ImageGen(AnimationSprite);
 
-	GLint LoadedComponents2 = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
+	LoadedComponents = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents2, ImageWidth, ImageHeight, 0,
-		LoadedComponents2, GL_UNSIGNED_BYTE, ImageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents, ImageWidth, ImageHeight, 0,
+		LoadedComponents, GL_UNSIGNED_BYTE, ImageData);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -219,8 +223,6 @@ void InitialSetup()
 	vboGenerate(VBO_Hex);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices_Hex), Vertices_Hex, GL_STATIC_DRAW);
 	
-
-
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GLfloat)));
@@ -255,13 +257,11 @@ void Update()
 
 	CurrentTime = (float)glfwGetTime();
 
-
-
 	float CurrentTimeStep = (float)glfwGetTime();
 	float DeltaTime = CurrentTimeStep - PreviousTimeStep;
 	PreviousTimeStep = CurrentTimeStep;
 
-
+	std::cout << DeltaTime << std::endl;
 
 	TranslationMat = glm::translate(glm::mat4(), ObjPosition);
 	RotationMat = glm::rotate(glm::mat4(), glm::radians(ObjRotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -339,14 +339,11 @@ void Render()
 	
 	glUniform1f(CurrentTimeLoc, CurrentTime);
 
+	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), TimeChange, 0);
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Mood);
+	glBindTexture(GL_TEXTURE_2D, AnimationSprite);
 	glUniform1i(glGetUniformLocation(Program_Quad, "ImageTexture"), 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, Mood2);
-	glUniform1i(glGetUniformLocation(Program_Quad, "ImageTexture1"), 1);
-
 
 	GLint PVMMatLoc1 = glGetUniformLocation(Program_Quad, "PVMMat");
 	glUniformMatrix4fv(PVMMatLoc1, 1, GL_FALSE, glm::value_ptr(PVMMatQuad));

@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ClipSpace.vs" />
+    <None Include="Resources\Shaders\ClipSpaceQuad.vs" />
     <None Include="Resources\Shaders\Hexagon.fs" />
     <None Include="Resources\Shaders\Quad.fs" />
   </ItemGroup>
