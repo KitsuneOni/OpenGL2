@@ -27,6 +27,7 @@ GLuint VBO_Quad;
 GLuint EBO_Quad;
 GLuint Elige;
 GLuint Mood;
+GLuint Mood2;
 
 GLFWwindow* window = nullptr;
 
@@ -50,8 +51,8 @@ glm::vec3 ObjScale = glm::vec3(200.0f, 200.0f, 200.0f);
 glm::mat4 ScaleMat;
 
 glm::mat4 ObjModelMat;
-glm::mat4 PVMMat;
-glm::mat4 PVMMat2;
+glm::mat4 PVMMatHexRight;
+glm::mat4 PVMMatHexLeft;
 glm::mat4 PVMMatQuad;
 
 //camera Stuff
@@ -147,16 +148,18 @@ void InitialSetup()
 
 	Program_Hex = ShaderLoader::CreateProgram("Resources/Shaders/ClipSpace.vs",
 		"Resources/Shaders/Hexagon.fs");
+
 	Program_Quad = ShaderLoader::CreateProgram("Resources/Shaders/ClipSpace.vs",
 		"Resources/Shaders/Quad.fs");
 
 	int ImageWidth;
 	int ImageHeight;
 	int ImageComponents;
-	
+	unsigned char* ImageData;
+
 
 	stbi_set_flip_vertically_on_load(true);
-	unsigned char* ImageData = stbi_load("Resources/Textures/Elige.png",
+	ImageData = stbi_load("Resources/Textures/Elige.png",
 		&ImageWidth, &ImageHeight, &ImageComponents, 0);
 	ImageGen(Elige);
 	
@@ -174,18 +177,36 @@ void InitialSetup()
 
 
 	stbi_set_flip_vertically_on_load(true);
-	unsigned char* ImageData1 = stbi_load("Resources/Textures/Mood.jpg",
+	ImageData = stbi_load("Resources/Textures/Mood.jpg",
 		&ImageWidth, &ImageHeight, &ImageComponents, 0);
 	ImageGen(Mood);
 	
 	GLint LoadedComponents1 = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents1, ImageWidth, ImageHeight, 0,
-		LoadedComponents1, GL_UNSIGNED_BYTE, ImageData1);
+		LoadedComponents1, GL_UNSIGNED_BYTE, ImageData);
 	
 	glGenerateMipmap(GL_TEXTURE_2D);
 	
-	ImageClear(ImageData1);
+	ImageClear(ImageData);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+
+	stbi_set_flip_vertically_on_load(true);
+	ImageData = stbi_load("Resources/Textures/Mood2.png",
+		&ImageWidth, &ImageHeight, &ImageComponents, 0);
+	ImageGen(Mood2);
+
+	GLint LoadedComponents2 = (ImageComponents == 4) ? GL_RGBA : GL_RGB;
+
+	glTexImage2D(GL_TEXTURE_2D, 0, LoadedComponents2, ImageWidth, ImageHeight, 0,
+		LoadedComponents2, GL_UNSIGNED_BYTE, ImageData);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	ImageClear(ImageData);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 
@@ -261,7 +282,7 @@ void Update()
 
 
 
-	PVMMat = ProjectionMat * ViewMat * ObjModelMat;
+	PVMMatHexRight = ProjectionMat * ViewMat * ObjModelMat;
 
 
 
@@ -269,7 +290,7 @@ void Update()
 	TranslationMat = glm::translate(glm::mat4(), ObjPosition2);
 	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
 
-	PVMMat2 = ProjectionMat * ViewMat * ObjModelMat;
+	PVMMatHexLeft = ProjectionMat * ViewMat * ObjModelMat;
 
 
 
@@ -300,13 +321,13 @@ void Render()
 
 
 	GLint PVMMatLoc = glGetUniformLocation(Program_Hex, "PVMMat");
-	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMat));
+	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMatHexRight));
 
 	glDrawElements(GL_TRIANGLES, sizeof(Indices_Hex), GL_UNSIGNED_INT, 0);
 
 
 
-	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMat2));
+	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMatHexLeft));
 
 	glDrawElements(GL_TRIANGLES, sizeof(Indices_Hex), GL_UNSIGNED_INT, 0);
 
@@ -319,14 +340,16 @@ void Render()
 	glUniform1f(CurrentTimeLoc, CurrentTime);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Elige);
+	glBindTexture(GL_TEXTURE_2D, Mood);
 	glUniform1i(glGetUniformLocation(Program_Quad, "ImageTexture"), 0);
 
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, Mood);
+	glBindTexture(GL_TEXTURE_2D, Mood2);
 	glUniform1i(glGetUniformLocation(Program_Quad, "ImageTexture1"), 1);
 
-	glUniformMatrix4fv(PVMMatLoc, 1, GL_FALSE, glm::value_ptr(PVMMatQuad));
+
+	GLint PVMMatLoc1 = glGetUniformLocation(Program_Quad, "PVMMat");
+	glUniformMatrix4fv(PVMMatLoc1, 1, GL_FALSE, glm::value_ptr(PVMMatQuad));
 	
 	glDrawElements(GL_TRIANGLES, sizeof(Indices_Quad), GL_UNSIGNED_INT, 0);
 
