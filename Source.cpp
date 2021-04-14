@@ -39,8 +39,8 @@ int Program_Quad;
 
 float CurrentTime = 0.0f;
 float PreviousTimeStep;
-
-float TimeChange = 0.0f;
+float AnimationTime = 0.0f;
+float PositionSprite;
 
 glm::vec3 ObjPosition = glm::vec3(200.0f, 200.0f, 0.0f);
 glm::vec3 ObjPosition2 = glm::vec3(-200.0f, 200.0f, 0.0f);
@@ -261,8 +261,13 @@ void Update()
 	float DeltaTime = CurrentTimeStep - PreviousTimeStep;
 	PreviousTimeStep = CurrentTimeStep;
 
-	std::cout << CurrentTime << std::endl;
+	AnimationTime += DeltaTime;
 
+	if (AnimationTime >= 0.1f)
+	{
+		PositionSprite += 0.125f;
+		AnimationTime = 0.0f;
+	}
 	TranslationMat = glm::translate(glm::mat4(), ObjPosition);
 	RotationMat = glm::rotate(glm::mat4(), glm::radians(ObjRotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
 	ScaleMat = glm::scale(glm::mat4(), ObjScale);
@@ -330,7 +335,7 @@ void Render()
 	glUseProgram(Program_Quad);
 	glBindVertexArray(VAO_Quad);
 	
-	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), TimeChange, 0);
+	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), PositionSprite, 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, AnimationSprite);
