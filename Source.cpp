@@ -39,11 +39,12 @@ int Program_Quad;
 
 float CurrentTime = 0.0f;
 float PreviousTimeStep;
-float AnimationTime = 0.0f;
-float PositionSprite;
+float AnimationTimeX = 0.0f;
+float AnimationTimeY = 0.0f;
+float PositionSpriteX;
 
-glm::vec3 ObjPosition = glm::vec3(200.0f, 200.0f, 0.0f);
-glm::vec3 ObjPosition2 = glm::vec3(-200.0f, 200.0f, 0.0f);
+glm::vec3 ObjPositionRight = glm::vec3(200.0f, 200.0f, 0.0f);
+glm::vec3 ObjPositionLeft = glm::vec3(-200.0f, 200.0f, 0.0f);
 glm::vec3 ObjPositionQuad = glm::vec3(0.0f, -200.0f, 0.0f);
 
 glm::mat4 TranslationMat;
@@ -92,7 +93,7 @@ GLuint Indices_Hex[] =
 GLfloat Vertices_Quad[] =
 {
 	-1.0f, -1.0f, 0.0f,    		 1.0f, 0.0f, 1.0f,		0.0f,  0.0f,		//bottom left
-	 1.0f, -1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.125f, 0.0f,		//bottom right
+	 1.0f, -1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.125f,	0.0f,		//bottom right
      1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.125f,  1.0f,		//top right
 	-1.0f,  1.0f, 0.0f,			 0.0f, 1.0f, 1.0f,		0.0f,  1.0f,		//top left
 };
@@ -261,14 +262,15 @@ void Update()
 	float DeltaTime = CurrentTimeStep - PreviousTimeStep;
 	PreviousTimeStep = CurrentTimeStep;
 
-	AnimationTime += DeltaTime;
+	AnimationTimeX += DeltaTime;
+	AnimationTimeY += DeltaTime;
 
-	if (AnimationTime >= 0.1f)
+	if (AnimationTimeX >= 0.1f)
 	{
-		PositionSprite += 0.125f;
-		AnimationTime = 0.0f;
+		PositionSpriteX += 0.125f;
+		AnimationTimeX = 0.0f;
 	}
-	TranslationMat = glm::translate(glm::mat4(), ObjPosition);
+	TranslationMat = glm::translate(glm::mat4(), ObjPositionRight);
 	RotationMat = glm::rotate(glm::mat4(), glm::radians(ObjRotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
 	ScaleMat = glm::scale(glm::mat4(), ObjScale);
 	
@@ -285,7 +287,7 @@ void Update()
 
 
 
-	TranslationMat = glm::translate(glm::mat4(), ObjPosition2);
+	TranslationMat = glm::translate(glm::mat4(), ObjPositionLeft);
 	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
 
 	PVMMatHexLeft = ProjectionMat * ViewMat * ObjModelMat;
@@ -335,7 +337,7 @@ void Render()
 	glUseProgram(Program_Quad);
 	glBindVertexArray(VAO_Quad);
 	
-	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), PositionSprite, 0);
+	glUniform2f(glGetUniformLocation(Program_Quad, "TexOffset"), PositionSpriteX, 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, AnimationSprite);
