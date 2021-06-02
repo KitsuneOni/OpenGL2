@@ -18,6 +18,13 @@ void vaoGenerate(GLuint& vao);
 void eboGenerate(GLuint& ebo);
 void ImageGen(GLuint& image);
 void ImageClear(unsigned char* image);
+void cullStuff();
+void ProcessInput(float DeltaTime);
+void KeyInput(GLFWwindow* window, int Key, int ScanCode, int Action, int Mods);
+void TextInput(GLFWwindow* window, unsigned int CodePoint);
+void MouseLocation(GLFWwindow* window, double posX, double posY);
+
+bool Condition = false;
 
 GLuint VBO_Hex;
 GLuint VAO_Hex;
@@ -254,7 +261,12 @@ void Update()
 {
 	glfwPollEvents();
 
+	glfwSetKeyCallback(window, KeyInput);
+	(Condition == true) ? glfwSetCharCallback(window, TextInput) : glfwSetCharCallback(window, 0);
+	glfwSetCursorPosCallback(window, MouseLocation);
 
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 	CurrentTime = (float)glfwGetTime();
 
@@ -298,7 +310,10 @@ void Update()
 	ObjModelMat = TranslationMat * RotationMat * ScaleMat;
 
 	PVMMatQuad = ProjectionMat * ViewMat * ObjModelMat;
+	
+	ProcessInput(DeltaTime);
 
+	//glEnable(GL_CULL_FACE);
 }
 void Render()
 {
@@ -354,6 +369,8 @@ void Render()
 	glBindVertexArray(0);
 	glUseProgram(0);
 
+	//cullStuff();
+
 	glfwSwapBuffers(window);
 }
 
@@ -381,4 +398,49 @@ void ImageClear(unsigned char* image)
 	stbi_image_free(image);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+
+
+void cullStuff() {
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
+}
+
+void ProcessInput(float DeltaTime)
+{
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		ObjPositionQuad += glm::vec3(0.0f, 100.0f, 0.0f) * DeltaTime;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		ObjPositionQuad += glm::vec3(-100.0f, 0.0f, 0.0f) * DeltaTime;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		ObjPositionQuad += glm::vec3(0.0f, -100.0f, 0.0f) * DeltaTime;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		ObjPositionQuad += glm::vec3(100.0f, 0.0f, 0.0f) * DeltaTime;
+	}
+}
+
+void KeyInput(GLFWwindow* window, int Key, int ScanCode, int Action, int Mods)
+{
+	if (Key == GLFW_KEY_ESCAPE && Action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
+}
+
+void TextInput(GLFWwindow* window, unsigned int CodePoint)
+{
+	std::cout << "Text Input Detected: " << (unsigned char)CodePoint << std::endl;
+}
+
+void MouseLocation(GLFWwindow* window, double posX, double posY)
+{
+	std::cout << "Cursord Coords:  X: " << posX << "  Y:  " << posY << std::endl;
 }
