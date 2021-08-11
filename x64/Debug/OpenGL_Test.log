@@ -1,0 +1,33 @@
+﻿  AudioManager.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\AudioManager.h(13,10): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+  Camera.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Camera.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Cube.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  LightManager.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\LightManager.h(7,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  LightSphere.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Sphere.h(3,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  main.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\main.cpp(7,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Mesh.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Mesh3D.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  ObjectFactory.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Pyramid.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Quad.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  ShaderLoader.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\ShaderLoader.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  SkyBox.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Mesh.h(16,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Sphere.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\Sphere.h(3,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  TextLabel.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\TextLabel.h(16,10): fatal error C1083: Cannot open include file: 'glm.hpp': No such file or directory
+  TextureLoader.cpp
+C:\Users\neels\Desktop\GD1P04- Neel Kolhe\OpenGL_Test\TextureLoader.h(15,10): fatal error C1083: Cannot open include file: 'glew.h': No such file or directory
+  Generating Code...

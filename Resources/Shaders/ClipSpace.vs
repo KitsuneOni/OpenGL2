@@ -1,17 +1,20 @@
 #version 460 core
 
+// Vertex Data Interpretation
 layout (location = 0) in vec3 Position;
-layout (location = 1) in vec3 Color;
-layout (location = 2) in vec2 TexCoords;
+layout (location = 1) in vec2 TexCoords;
 
-uniform mat4 PVMMat;
+// Inputs
+uniform mat4 pvmMat;
 
-out vec3 FragColor;
+
+// Outputs to Fragment Shader
+//out vec3 FragColor;
 out vec2 FragTexCoords;
 
 void main()
 {
-    gl_Position = PVMMat * vec4(Position, 1.0f);
-    FragColor = Color;
-    FragTexCoords = TexCoords;
+	gl_Position = pvmMat * vec4(Position, 1.0f);
+	//FragColor = Color;
+	FragTexCoords = TexCoords;
 }

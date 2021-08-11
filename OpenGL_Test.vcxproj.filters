@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Summative 2">
+      <UniqueIdentifier>{abe1e454-64d3-4ef2-94c8-192dd91da3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Summative 2\Objects">
+      <UniqueIdentifier>{efea86c6-c18e-4f6d-8db9-61d5502e901c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Summative 2">
+      <UniqueIdentifier>{bfad694a-2e62-4f65-95fd-76da9946f07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Summative 2\Objects">
+      <UniqueIdentifier>{2d3757dd-a745-483f-a376-739c3e3f8a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{83185227-921f-4d8d-bf24-25a1bececdaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{6da251d0-2594-4d62-bcbe-99625b2c3947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Summative 2\Mesh">
+      <UniqueIdentifier>{d7dd27ff-29a4-45bd-bc1e-55162dfb26d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{bb3ded87-c4bf-40ba-9b11-3bec88a054c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\VertexShaders">
+      <UniqueIdentifier>{a8317216-a051-47b3-8b36-56b4252b5eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\FragmentShaders">
+      <UniqueIdentifier>{6b5018ab-bf4b-45ec-8431-ce6248a2e3a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Summative 2\Objects\2D Objects">
+      <UniqueIdentifier>{1e0d5b14-0439-4a34-9558-9a4b21059486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Summative 2\Objects\3D Objects">
+      <UniqueIdentifier>{af82a109-bc2e-4fb6-9c27-850e5b196525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Summative 2\Objects\Text">
+      <UniqueIdentifier>{2090e7db-0138-40ea-a805-b5499b71fd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Summative 2\Text">
+      <UniqueIdentifier>{26f2e194-848a-4a4a-9e7e-5451f4d19b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\FragmentShaders\Light">
+      <UniqueIdentifier>{762f0dd6-be97-47f4-9529-5506a48e3fbb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Summative 2</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>Source Files\Summative 2\Objects\2D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Summative 2\Objects\3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Source Files\Summative 2\Objects\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh3D.cpp">
+      <Filter>Source Files\Summative 2</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>Source Files\Summative 2\Objects\3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Summative 2\Objects\3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utiliy.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Summative 2\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Summative 2\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh3D.h">
+      <Filter>Header Files\Summative 2\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>Header Files\Summative 2\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>Header Files\Summative 2\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Summative 2\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Header Files\Summative 2\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\3DClipSpace.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\ClipSpace.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\StaticTexture.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Text.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Text.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\TextureStatic.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\TextureMix.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\TextScrolling.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\TextScrolling.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\3D_Normals.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\3DLight_BlinnPhong.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders\Light</Filter>
+    </None>
+    <None Include="Resources\Shaders\3DLight_BlinnPhongRim.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders\Light</Filter>
+    </None>
+    <None Include="Resources\Shaders\3DLight_Phong.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders\Light</Filter>
+    </None>
+    <None Include="Resources\Shaders\Skybox.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Skybox.vs">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\3DLight_BlinnPhongReflection.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders\Light</Filter>
+    </None>
+    <None Include="Resources\Shaders\StaticColor.fs">
+      <Filter>Resource Files\Shaders\FragmentShaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
