@@ -42,10 +42,13 @@ public:
 	// Projection, View and PVM Matricies
 	// Set the Perspective Projection Matrix
 	glm::mat4 PerspectiveProjectionMat(int WindowWidth, int WindowHeight);
+
 	// Set the OrthoProjection Matrix
 	glm::mat4 OrthoProjectionMat(int WindowWidth, int WindowHeight);
+
 	// Set the View matrix
 	glm::mat4 SetViewMat();
+
 	// Return PVM Matrix. This is used in the draw function for the renderable objects.
 	glm::mat4 ReturnOrthPVM();
 	glm::mat4 ReturnPersPVM(glm::mat4 modelMatrix);
@@ -60,14 +63,19 @@ public:
 private:
 	// Position of the Camera
 	glm::vec3 CameraPos;
+
 	// Where the Camera is Looking
 	glm::vec3 CameraLookDir;
+	
 	// The Target for the Camera
 	glm::vec3 CameraTargetPos;
+	
 	// What Direction is Up for the Camera
 	glm::vec3 CameraUpDir;
+	
 	// View Matrix
 	glm::mat4 ViewMat;
+	
 	// Projection Matrix
 	glm::mat4 OrthProjectionMat;
 	glm::mat4 PersProjectionMat;
