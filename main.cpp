@@ -52,13 +52,15 @@ Camera* camera;
 // Light Manager
 LightManager* Lights;
 
-std::vector<LightSphere*> LightsSpheres;
+//std::vector<LightSphere*> LightsSpheres;
 
 
-std::vector<Sphere*> Spheres;
-Sphere* sphere;
-Sphere* sphere2;
-Cube* cube;
+//std::vector<Sphere*> Spheres;
+//Sphere* sphere;
+//Sphere* sphere2;
+//Cube* cube;
+
+Quad* quad;
 
 SkyBox* skybox;
 
@@ -155,21 +157,24 @@ void InitialSetup()
 	Lights = new LightManager();
 
 	Lights->AddPointLight(0, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), 0.1f, 1.0f, 1.0f, 0.045f, 0.0075f);
-	LightsSpheres.push_back(new LightSphere(Lights->ReturnPointLight(0).Position, Lights->ReturnPointLight(0).Color, camera));
+	//LightsSpheres.push_back(new LightSphere(Lights->ReturnPointLight(0).Position, Lights->ReturnPointLight(0).Color, camera));
 
 	Lights->AddPointLight(1, glm::vec3(20.0f, 2.0f, -3.0f), glm::vec3(1.0f, 0.0f, 0.0f), 0.03, 1.0f, 1.0f, 0.022f, 0.0019f);
-	LightsSpheres.push_back(new LightSphere(Lights->ReturnPointLight(1).Position, Lights->ReturnPointLight(1).Color, camera));
+	//LightsSpheres.push_back(new LightSphere(Lights->ReturnPointLight(1).Position, Lights->ReturnPointLight(1).Color, camera));
 
 	//Lights->AddPointLight(2, glm::vec3(-2.0f, -40.0f, -3.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.1, 1.0f, 1.0f, 0.045f, 0.0075f);
 	//Lights->AddPointLight(3, glm::vec3(-20.0f, -6.0f, 10.0f), glm::vec3(1.0f, 1.0f, 0.0f), 0.1, 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	Lights->SetDirectionalLight(glm::vec3(0.0f, -1.0f, -1.0f), glm::vec3(0.3f, 0.3f, 0.3f), 0.10f, 1.0f);
 
-	cube = ObjectFactory::CreateCube("Resources/Textures/Crate.jpg", "Resources/Shaders/3D_Normals.vs", "Resources/Shaders/3DLight_BlinnPhongReflection.fs", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), camera, Lights, skybox);
+	//cube = ObjectFactory::CreateCube("Resources/Textures/Crate.jpg", "Resources/Shaders/3D_Normals.vs", "Resources/Shaders/3DLight_BlinnPhongReflection.fs", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), camera, Lights, skybox);
 
-	Spheres = ObjectFactory::CreateSpheres(camera, Lights, skybox, 10, glm::vec2(-15, 15), glm::vec2(-15, 15), glm::vec2(-15, 15));
-	Spheres[0]->SetProgram("Resources/Shaders/3D_Normals.vs", "Resources/Shaders/3DLight_BlinnPhongRim.fs");
+	//Spheres = ObjectFactory::CreateSpheres(camera, Lights, skybox, 10, glm::vec2(-15, 15), glm::vec2(-15, 15), glm::vec2(-15, 15));
+	//Spheres[0]->SetProgram("Resources/Shaders/3D_Normals.vs", "Resources/Shaders/3DLight_BlinnPhongRim.fs");
 
+	quad = ObjectFactory::CreateHoverQuad("Resources/Textures/HoverImage1.png", "Resources/Textures/HoverImage2.png", "Resources/Shaders/3DClipSpace.vs", "Resources/Shaders/StaticTexture.fs", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f), camera);
+
+	
 	// Enable Culling
 	ToggleCulling(Culling);
 }
@@ -184,12 +189,14 @@ void Update()
 	PreviousTimeStep = CurrentTimeStep;
 	Timer += DeltaTime;
 
-	for (int i = 0; i < Spheres.size(); i++)
-	{
-		Spheres[i]->Update(DeltaTime);
-	}
+	//for (int i = 0; i < Spheres.size(); i++)
+	//{
+	//	Spheres[i]->Update(DeltaTime);
+	//}
 
 	//cube->Update(DeltaTime);
+
+	quad->Update(DeltaTime);
 
 	camera->CameraMovement(Window);
 
@@ -201,24 +208,24 @@ void Render()
 	// Clear the Screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int i = 0; i < Spheres.size(); i++)
-	{
-		Spheres[i]->Draw();
-	}
+	//for (int i = 0; i < Spheres.size(); i++)
+	//{
+	//	Spheres[i]->Draw();
+	//}
 
-	cube->Draw();
+	//cube->Draw();
 
 	/*sphere->Draw();
 	sphere2->Draw();*/
 
 	skybox->Draw();
 
-	for (LightSphere* obj : LightsSpheres)
-	{
-		obj->Draw();
-	}
+	//for (LightSphere* obj : LightsSpheres)
+	//{
+	//	obj->Draw();
+	//}
 
-
+	quad->Draw();
 	// Swap the Buffer
 	glfwSwapBuffers(Window);
 }
@@ -309,7 +316,7 @@ void KeyInput(GLFWwindow* InputWindow, int Key, int ScanCode, int Action, int Mo
 		isTyping = !isTyping;
 
 		isTyping ? glfwSetCharCallback(Window, TextInput) : glfwSetCharCallback(Window, 0);
-		//isTyping ? //TextMessages[1]->SetColor(glm::vec3(0.0f, 0.0f, 1.0f)) : TextMessages[1]->SetColor(glm::vec3(1.0f, 1.0f, 1.0f));
+		//isTyping ? TextMessages[1]->SetColor(glm::vec3(0.0f, 0.0f, 1.0f)) : TextMessages[1]->SetColor(glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 
 	/*

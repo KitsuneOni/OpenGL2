@@ -30,8 +30,10 @@ public:
 
 	// Returns a newly created cube.
 	static Cube* CreateCube(const char* TextureName, const char* VertexShader, const char* FragmentShader, glm::vec3 Position, glm::vec3 Scale, Camera* camera, LightManager* lightman, SkyBox* skybox);
+	
 	// Returns a newly created Quad UI.
 	static Quad* CreateHoverQuad(const char* TextureName, const char* HoverTextureName, const char* VertexShader, const char* FragmentShader, glm::vec3 Position, glm::vec3 Scale, Camera* camera);
+	
 	// Returns a newly created Pyramid.
 	static Pyramid* CreatePyramid(const char* TextureName, const char* VertexShader, const char* FragmentShader, glm::vec3 Position, glm::vec3 Scale, Camera* camera);
 
